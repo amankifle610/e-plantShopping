@@ -217,7 +217,7 @@ function ProductList() {
             ]
         }
     ];
-  const handleAddToCart = (plant) => {
+    const handleAddToCart = (plant) => {
         dispatch(addItem(plant)); // Add plant to the cart
         setAddedToCart(prevState => ({
             ...prevState,
@@ -271,23 +271,23 @@ function ProductList() {
                 </div>
             </div>
 
-            {!showCart ? (
+            {showPlants && (
                 <div className="product-grid">
-                    {showPlants && plantsArray.map((category, catIndex) => (
-                        <div key={catIndex} className="product-category">
-                            <h2>{category.category}</h2>
-                            <div className="product-grid-inner">
+                    {plantsArray.map((category, index) => (
+                        <div key={index}>
+                            <h1>{category.category}</h1>
+                            <div className="product-list">
                                 {category.plants.map((plant, plantIndex) => (
-                                    <div key={plantIndex} className="product-card">
-                                        <h3>{plant.name}</h3>
-                                        <img src={plant.image} alt={plant.name} />
-                                        <p>{plant.description}</p>
-                                        <p>Cost: {plant.cost}</p>
-                                        <button
+                                    <div className="product-card" key={plantIndex}>
+                                        <img className="product-image" src={plant.image} alt={plant.name} />
+                                        <div className="product-title">{plant.name}</div>
+                                        <div className="product-description">{plant.description}</div>
+                                        <div className="product-cost">{plant.cost}</div>
+                                        <button 
+                                            className="product-button" 
                                             onClick={() => handleAddToCart(plant)}
-                                            disabled={addedToCart[plant.name]}
                                         >
-                                            {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
+                                            {addedToCart[plant.name] ? "Added" : "Add to Cart"}
                                         </button>
                                     </div>
                                 ))}
@@ -295,7 +295,9 @@ function ProductList() {
                         </div>
                     ))}
                 </div>
-            ) : (
+            )}
+
+            {showCart && (
                 <CartItem onContinueShopping={handleContinueShopping} />
             )}
         </div>
